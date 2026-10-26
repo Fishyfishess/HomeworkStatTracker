@@ -10,10 +10,9 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Today's homework")
+                .font(.custom("Georgia", size: 40, relativeTo: .headline))
+            Text("\(Date.now.formatted(date: .abbreviated, time: .omitted))")
         }
         .padding()
     }
