@@ -8,8 +8,33 @@
 import SwiftUI
 
 struct addHomework: View {
+    @State var selectedSubject = "Pick subject"
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Add new homework")
+            .font(.custom("Georgia", size: 40, relativeTo: .headline))
+        HStack(){
+            VStack(alignment: .leading){
+                    Label("Subject:", image: "")
+                    .font(.custom("Georgia", size: 20, relativeTo: .headline))
+                    .labelStyle(.titleOnly)
+            }
+            .padding()
+            VStack{
+                Menu {
+                    Button("math"){
+                        selectedSubject = "math"
+                    }
+                } label: {
+                    Label(selectedSubject, image: "")
+                        .padding()
+                        .background(.regularMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .foregroundStyle(.black)
+                        .labelStyle(.titleOnly)
+                }
+            }
+            .padding()
+        }
     }
 }
 

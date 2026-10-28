@@ -7,11 +7,11 @@
 
 import Foundation
 struct Homework{
-    //each one can store multiple of similar homework
-    //each instance of this struct is for each homework type, per subject
+    //each one can store one homework
+    //save these into subject
     var homeworkType: String
-    var homeworkName: [String]
-    var homeworkRating : [Int]
-    var homeworkDifficulty : [Int]
-    var subject: [String]
+    var homeworkName: String
+    var homeworkRating : Int
+    var homeworkDifficulty : Int
+    var subject: String
 }

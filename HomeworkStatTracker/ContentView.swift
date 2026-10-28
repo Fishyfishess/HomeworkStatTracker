@@ -7,29 +7,28 @@
 
 import SwiftUI
 
+@Observable
 class appData{
     static var shared = appData()
     private init(){
     }
-    
-    
-    
+    var toDoList: [String] = ["hi","he","ho"]
 }
 
 struct ContentView: View {
     @State var dailyQuotes: [String] = ["hey"]
-    @State var toDoList: [String] = ["hi","he","ho"]
+    //@State var toDoList: [String] = ["hi","he","ho"]
     var body: some View {
         NavigationStack{
                 TabView {
-                    Tab {
+                    Tab("Home", systemImage: "house") {
                         VStack {
                             Text("Today's homework")
                                 .font(.custom("Georgia", size: 40, relativeTo: .headline))
                             Text("\(Date.now.formatted(date: .abbreviated, time: .omitted)) | \"\(dailyQuotes[0])\"")
                                 .font(.custom("Georgia", size: 20, relativeTo: .headline))
                             List {
-                                ForEach(toDoList, id:\.self){ homework in
+                                ForEach(appData.shared.toDoList, id:\.self){ homework in
                                     NavigationLink(homework) {
                                     }
                                 }
@@ -38,10 +37,10 @@ struct ContentView: View {
                         }
                         .padding()
                     }
-                    Tab {
+                    Tab("add", systemImage: "plus") {
                         addHomework()
                     }
-                    Tab {
+                    Tab("upload", systemImage: "square.and.arrow.up") {
                         uploadHomework()
                     }
                 }
