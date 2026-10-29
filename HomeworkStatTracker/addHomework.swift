@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct addHomework: View {
-    @State var selectedSubject = "Pick subject"
-    @State var selectedHomeworkType = "Pick homework type"
+    @State var selectedSubject = "--"
+    @State var selectedHomeworkType = "--"
     @State var selectedDueDate = Date.now
     @State var homeworkName = ""
     var body: some View {
@@ -36,16 +36,28 @@ struct addHomework: View {
                         .padding()
                     
                     Menu {
-                        Button("math"){
-                            selectedSubject = "math"
+                        Button("English"){
+                            selectedSubject = "English"
+                        }
+                        Button("Math"){
+                            selectedSubject = "Math"
+                        }
+                        Button("Science"){
+                            selectedSubject = "Science"
+                        }
+                        Button("Social sciences"){
+                            selectedSubject = "Social science"
+                        }
+                        Button("Computer science"){
+                            selectedSubject = "Computer science"
                         }
                     } label: {
-                        Label(selectedSubject, image: "")
+                        Label(selectedSubject, systemImage: "chevron.down")
+                            .frame(width: 225)
                             .padding()
                             .background(.regularMaterial)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .foregroundStyle(.black)
-                            .labelStyle(.titleOnly)
                     }
                 }
                 
@@ -56,16 +68,36 @@ struct addHomework: View {
                         .padding()
                     
                     Menu {
-                        Button("Webassign"){
-                            selectedHomeworkType = "Webassign"
+                        if selectedSubject == "English" {
+                            Button("Essay"){
+                                selectedHomeworkType = "Essay"
+                            }
+                        } else if selectedSubject == "Math" {
+                            Button("Webassign"){
+                                selectedHomeworkType = "Webassign"
+                            }
+                        } else if selectedSubject == "Science" {
+                            Button("Worksheet"){
+                                selectedHomeworkType = "Worksheet"
+                            }
+                        } else if selectedSubject == "Social science" {
+                            Button("Reading"){
+                                selectedHomeworkType = "Reading"
+                            }
+                        } else if selectedSubject == "Computer science" {
+                            Button("kill the bugs"){
+                                selectedHomeworkType = "kill the bugs"
+                            }
+                        } else {
+                            Text("select a subject first")
                         }
                     } label: {
-                        Label(selectedHomeworkType, image: "")
+                        Label(selectedHomeworkType, systemImage: "chevron.down")
+                            .frame(width: 140)
                             .padding()
                             .background(.regularMaterial)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .foregroundStyle(.black)
-                            .labelStyle(.titleOnly)
                     }
                 }
                 
@@ -75,13 +107,22 @@ struct addHomework: View {
                         .labelStyle(.titleOnly)
                         .padding()
                     
-                    DatePicker("", selection: $selectedDueDate, displayedComponents: .date)
-                        .labelsHidden()
+                    ZStack{
+                        DatePicker("", selection: $selectedDueDate, displayedComponents: .date)
+                            .frame(width: 230, height: 50)
+                            .labelsHidden()
+                            .blendMode(.destinationOver)
+                            .background(.regularMaterial)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            .overlay {
+                                Label(selectedDueDate.formatted(date: .abbreviated, time: .omitted), systemImage: "chevron.down")
+                            }
+                    }
                 }
             }
             Spacer()
             Button("Add Homework"){
-                var temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate)
+                let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate)
                 appData.shared.toDoList.append(temp)
             }
             .buttonStyle(.glassProminent)
