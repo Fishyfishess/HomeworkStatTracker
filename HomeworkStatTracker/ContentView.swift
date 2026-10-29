@@ -12,7 +12,7 @@ class appData{
     static var shared = appData()
     private init(){
     }
-    var toDoList: [String] = ["hi","he","ho"]
+    var toDoList: [Homework] = []
 }
 
 struct ContentView: View {
@@ -28,8 +28,13 @@ struct ContentView: View {
                             Text("\(Date.now.formatted(date: .abbreviated, time: .omitted)) | \"\(dailyQuotes[0])\"")
                                 .font(.custom("Georgia", size: 20, relativeTo: .headline))
                             List {
-                                ForEach(appData.shared.toDoList, id:\.self){ homework in
-                                    NavigationLink(homework) {
+                                if appData.shared.toDoList.isEmpty{
+                                    Spacer()
+                                        .listRowBackground(Color.clear)
+                                } else {
+                                    ForEach(appData.shared.toDoList, id:\.dueDate){ homework in
+                                        NavigationLink(homework.homeworkName) {
+                                        }
                                     }
                                 }
                             }

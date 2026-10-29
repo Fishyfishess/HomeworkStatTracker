@@ -11,6 +11,8 @@ class Subject{
     //stores all of the different homeworks, for this subject
     var homework : [[Homework]] = [[]]
     //each row is one type of homework
+    
+    //dictionary that records the homework type and its index
     var homeworkType: [String:Int] = [:]
     init(Homework: [[Homework]]) {
     }

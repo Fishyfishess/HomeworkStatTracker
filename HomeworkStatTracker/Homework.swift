@@ -14,4 +14,5 @@ struct Homework{
     var homeworkRating : Int
     var homeworkDifficulty : Int
     var subject: String
+    var dueDate: Date
 }
