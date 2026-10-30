@@ -189,7 +189,13 @@ struct uploadHomework: View {
             Spacer()
             Button("Add Homework"){
                 let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate)
-                appData.shared.toDoList.append(temp)
+                if let index = appData.shared.subject.homeworkType[selectedSubject]{
+                    print(selectedSubject)
+                    print(String(index))
+                    appData.shared.subject.homework[index].append(temp)
+                    print("success?")
+                    print(appData.shared.subject.homework[index])
+                }
             }
             .buttonStyle(.glassProminent)
         }

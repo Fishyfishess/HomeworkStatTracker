@@ -9,12 +9,12 @@ import Foundation
 class Subject{
     //make multiple subjects, one for each subject
     //stores all of the different homeworks, for this subject
-    var homework : [[Homework]] = [[]]
+    var homework : [[Homework]] = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
     //each row is one type of homework
     
     //dictionary that records the homework type and its index
-    var homeworkType: [String:Int] = [:]
-    init(Homework: [[Homework]]) {
+    var homeworkType: [String:Int] = ["English": 0, "Math": 1, "Science": 2, "Social science": 3, "Computer science": 4]
+    init() {
     }
     
 }
