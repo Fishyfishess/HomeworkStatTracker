@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct uploadHomework: View {
+struct uploadHomeworkView: View {
     @State var selectedSubject = "--"
     @State var selectedHomeworkType = "--"
     @State var selectedDueDate = Date.now
@@ -204,5 +204,5 @@ struct uploadHomework: View {
 }
 
 #Preview {
-    uploadHomework()
+    uploadHomeworkView()
 }

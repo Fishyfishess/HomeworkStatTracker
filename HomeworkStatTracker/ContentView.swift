@@ -44,10 +44,10 @@ struct ContentView: View {
                         .padding()
                     }
                     Tab("add", systemImage: "plus") {
-                        addHomework()
+                        addHomeworkView()
                     }
                     Tab("upload", systemImage: "square.and.arrow.up") {
-                        uploadHomework()
+                        uploadHomeworkView()
                     }
                 }
         }
