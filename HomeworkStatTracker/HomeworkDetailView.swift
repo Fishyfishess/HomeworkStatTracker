@@ -9,32 +9,38 @@ import SwiftUI
 
 struct HomeworkDetailView: View {
     @Environment(\.dismiss) private var dismiss
-    var homeworkType: String
-    var homeworkName: String
-    var avgHomeworkRating : Int
-    var avgHomeworkDifficulty : Int
-    var subject: String
-    var dueDate: Date
+    var homework : Homework
     var body: some View {
         VStack{
-            Text("\(homeworkName) (\(homeworkType))")
+            Text("\(homework.homeworkName) (\(homework.homeworkType))")
                 .font(.custom("Georgia", size: 40, relativeTo: .headline))
-            Text("Due date: \(dueDate.formatted(date: .abbreviated, time: .omitted))")
+            Text("Due date: \(homework.dueDate.formatted(date: .abbreviated, time: .omitted))")
+                .font(.custom("Georgia", size: 20, relativeTo: .headline))
+            Text("Subject: \(homework.subject)")
                 .font(.custom("Georgia", size: 20, relativeTo: .headline))
             Spacer()
-            Text("Average rating: \(avgHomeworkRating) \n Average difficulty: \(avgHomeworkDifficulty)")
-                .font(.custom("Georgia", size: 20, relativeTo: .headline))
+//            Text("Average rating: \(homework.avgHomeworkRating) \n Average difficulty: \(homework.avgHomeworkDifficulty)")
+//                .font(.custom("Georgia", size: 20, relativeTo: .headline))
             Spacer()
             HStack{
                 Spacer()
                 Button("Mark completed"){
-                    
+                    if let index = appData.shared.subject.homeworkType[homework.subject]{
+                        print("ongoing")
+                        appData.shared.subject.homework[index].append(homework)
+                        print("success?")
+                        print(appData.shared.subject.homework[index])
+                    }
+                    for i in 0..<appData.shared.toDoList.count{
+                        if appData.shared.toDoList[i].uid == homework.uid {
+                            appData.shared.toDoList.remove(at: i)
+                        }
+                    }
                     dismiss()
                 }
                 .buttonStyle(.glassProminent)
                 Spacer()
                 Button("return"){
-                    
                     dismiss()
                 }
                 .buttonStyle(.glassProminent)
@@ -46,5 +52,5 @@ struct HomeworkDetailView: View {
 }
 
 #Preview {
-    HomeworkDetailView(homeworkType: "Idrk", homeworkName: "Idek", avgHomeworkRating: -1, avgHomeworkDifficulty: -1, subject: "Idke", dueDate: Date.now)
+    HomeworkDetailView(homework: Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: -1, homeworkDifficulty: -1, subject: "N/A", dueDate: Date.distantPast))
 }

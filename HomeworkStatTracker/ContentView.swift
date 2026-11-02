@@ -35,6 +35,7 @@ struct ContentView: View {
                                 } else {
                                     ForEach(appData.shared.toDoList, id:\.dueDate){ homework in
                                         NavigationLink(homework.homeworkName) {
+                                            HomeworkDetailView(homework: homework)
                                         }
                                     }
                                 }
