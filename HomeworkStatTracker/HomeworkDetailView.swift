@@ -39,12 +39,12 @@ struct HomeworkDetailView: View {
                     dismiss()
                 }
                 .buttonStyle(.glassProminent)
-                Spacer()
-                Button("return"){
-                    dismiss()
-                }
-                .buttonStyle(.glassProminent)
-                Spacer()
+//                Spacer()
+////                Button("return"){
+////                    dismiss()
+////                }
+//                .buttonStyle(.glassProminent)
+//                Spacer()
             }
         }
         .padding()
