@@ -23,7 +23,6 @@ struct HomeworkDetailView: View {
 //                .font(.custom("Georgia", size: 20, relativeTo: .headline))
             Spacer()
             HStack{
-                Spacer()
                 Button("Mark completed"){
                     if let index = appData.shared.subject.homeworkType[homework.subject]{
                         print("ongoing")
@@ -39,12 +38,6 @@ struct HomeworkDetailView: View {
                     dismiss()
                 }
                 .buttonStyle(.glassProminent)
-//                Spacer()
-////                Button("return"){
-////                    dismiss()
-////                }
-//                .buttonStyle(.glassProminent)
-//                Spacer()
             }
         }
         .padding()
@@ -52,5 +45,5 @@ struct HomeworkDetailView: View {
 }
 
 #Preview {
-    HomeworkDetailView(homework: Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: -1, homeworkDifficulty: -1, subject: "N/A", dueDate: Date.distantPast))
+    HomeworkDetailView(homework: Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: -1, homeworkDifficulty: -1, subject: "N/A", dueDate: Date.distantPast, timeSpent: 0))
 }

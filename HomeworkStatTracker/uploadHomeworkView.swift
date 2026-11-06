@@ -14,6 +14,7 @@ struct uploadHomeworkView: View {
     @State var homeworkName = ""
     @State var selectedPersonalDifficulty = "--"
     @State var selectedhomeworkRating = "--"
+    @State var selectedTimeSpent = "--"
     var body: some View {
         VStack{
             Text("Upload old homework")
@@ -188,13 +189,24 @@ struct uploadHomeworkView: View {
             }
             Spacer()
             Button("Add Homework"){
-                let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate)
-                if let index = appData.shared.subject.homeworkType[selectedSubject]{
-                    print(selectedSubject)
-                    print(String(index))
-                    appData.shared.subject.homework[index].append(temp)
-                    print("success?")
-                    print(appData.shared.subject.homework[index])
+                var tempRating = Int(selectedhomeworkRating) ?? -1
+                var tempDifficulty = Int(selectedPersonalDifficulty) ?? -1
+                if tempRating != -1 && tempDifficulty != -1 {
+                    let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: tempRating, homeworkDifficulty: tempDifficulty, subject: selectedSubject, dueDate: selectedDueDate)
+                    if let index = appData.shared.subject.homeworkType[selectedSubject]{
+                        print(selectedSubject)
+                        print(String(index))
+                        appData.shared.subject.homework[index].append(temp)
+                        print("success?")
+                        print(appData.shared.subject.homework[index])
+                    }
+                    
+                    selectedSubject = "--"
+                    selectedHomeworkType = "--"
+                    selectedDueDate = Date.now
+                    homeworkName = ""
+                    selectedPersonalDifficulty = "--"
+                    selectedhomeworkRating = "--"
                 }
             }
             .buttonStyle(.glassProminent)

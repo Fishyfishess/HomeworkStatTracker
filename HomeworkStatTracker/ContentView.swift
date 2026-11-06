@@ -18,7 +18,6 @@ class appData{
 
 struct ContentView: View {
     @State var dailyQuotes: [String] = ["hey"]
-    //@State var toDoList: [String] = ["hi","he","ho"]
     var body: some View {
         NavigationStack{
                 TabView {
@@ -34,7 +33,7 @@ struct ContentView: View {
                                         .listRowBackground(Color.clear)
                                 } else {
                                     ForEach(appData.shared.toDoList, id:\.dueDate){ homework in
-                                        NavigationLink(homework.homeworkName) {
+                                        NavigationLink("\(homework.homeworkName) \(homework.dueDate.formatted(date: .abbreviated, time: .omitted))") {
                                             HomeworkDetailView(homework: homework)
                                         }
                                     }
@@ -44,11 +43,14 @@ struct ContentView: View {
                         }
                         .padding()
                     }
-                    Tab("add", systemImage: "plus") {
+                    Tab("Add", systemImage: "plus") {
                         addHomeworkView()
                     }
-                    Tab("upload", systemImage: "square.and.arrow.up") {
+                    Tab("Upload", systemImage: "square.and.arrow.up") {
                         uploadHomeworkView()
+                    }
+                    Tab("Settings", systemImage: "gearshape.fill"){
+                        SettingsView()
                     }
                 }
         }

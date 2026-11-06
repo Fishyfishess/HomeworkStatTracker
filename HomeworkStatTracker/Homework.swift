@@ -15,5 +15,6 @@ struct Homework{
     var homeworkDifficulty : Int
     var subject: String
     var dueDate: Date
+    var timeSpent: Int
     var uid = UUID()
 }

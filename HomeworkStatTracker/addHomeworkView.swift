@@ -124,6 +124,11 @@ struct addHomeworkView: View {
             Button("Add Homework"){
                 let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate)
                 appData.shared.toDoList.append(temp)
+                
+                selectedSubject = "--"
+                selectedHomeworkType = "--"
+                selectedDueDate = Date.now
+                homeworkName = ""
             }
             .buttonStyle(.glassProminent)
         }
