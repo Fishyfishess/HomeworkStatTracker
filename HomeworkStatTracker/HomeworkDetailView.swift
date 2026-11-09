@@ -24,11 +24,10 @@ struct HomeworkDetailView: View {
             Spacer()
             HStack{
                 Button("Mark completed"){
-                    if let index = appData.shared.subject.homeworkType[homework.subject]{
                         print("ongoing")
-                        appData.shared.subject.homework[index].append(homework)
+                    if let a = appData.shared.subjects[homework.subject]{
+                        a.homework.append(homework)
                         print("success?")
-                        print(appData.shared.subject.homework[index])
                     }
                     for i in 0..<appData.shared.toDoList.count{
                         if appData.shared.toDoList[i].uid == homework.uid {
@@ -39,6 +38,10 @@ struct HomeworkDetailView: View {
                 }
                 .buttonStyle(.glassProminent)
             }
+            
+            //varius random stats for aifnakshgbahgb Testing RAHH
+            
+            
         }
         .padding()
     }

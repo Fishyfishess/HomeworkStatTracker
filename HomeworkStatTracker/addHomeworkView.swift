@@ -12,6 +12,7 @@ struct addHomeworkView: View {
     @State var selectedHomeworkType = "--"
     @State var selectedDueDate = Date.now
     @State var homeworkName = ""
+    @State var selectedTimeSpent = ""
     var body: some View {
         VStack{
             Text("Add new homework")
@@ -119,10 +120,23 @@ struct addHomeworkView: View {
                             }
                     }
                 }
+                
+                HStack{
+                    Label("Time spent:", image: "")
+                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
+                        .labelStyle(.titleOnly)
+                        .padding()
+                    
+                    TextField("Time spent", text: $selectedTimeSpent)
+                        .frame(width: 190)
+                        .padding()
+                        .background(.regularMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                }
             }
             Spacer()
             Button("Add Homework"){
-                let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate)
+                let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: Int(selectedTimeSpent) ?? 0)
                 appData.shared.toDoList.append(temp)
                 
                 selectedSubject = "--"

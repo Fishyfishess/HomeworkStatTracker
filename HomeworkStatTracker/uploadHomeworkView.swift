@@ -14,7 +14,7 @@ struct uploadHomeworkView: View {
     @State var homeworkName = ""
     @State var selectedPersonalDifficulty = "--"
     @State var selectedhomeworkRating = "--"
-    @State var selectedTimeSpent = "--"
+    @State var selectedTimeSpent = ""
     var body: some View {
         VStack{
             Text("Upload old homework")
@@ -112,7 +112,7 @@ struct uploadHomeworkView: View {
                         .padding()
                     ZStack{
                         DatePicker("", selection: $selectedDueDate, displayedComponents: .date)
-                            .frame(width: 230, height: 50)
+                            .frame(width: 235, height: 50)
                             .labelsHidden()
                             .blendMode(.destinationOver)
                             .background(.regularMaterial)
@@ -147,7 +147,7 @@ struct uploadHomeworkView: View {
                         }
                     } label: {
                         Label(selectedPersonalDifficulty, systemImage: "chevron.down")
-                            .frame(width: 120)
+                            .frame(width: 125)
                             .padding()
                             .background(.regularMaterial)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -179,27 +179,38 @@ struct uploadHomeworkView: View {
                         }
                     } label: {
                         Label(selectedhomeworkRating, systemImage: "chevron.down")
-                            .frame(width: 120)
+                            .frame(width: 125)
                             .padding()
                             .background(.regularMaterial)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .foregroundStyle(.black)
                     }
                 }
+                
+                HStack{
+                    Label("Time spent:", image: "")
+                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
+                        .labelStyle(.titleOnly)
+                        .padding()
+                    
+                    TextField("Time spent", text: $selectedTimeSpent)
+                        .frame(width: 190)
+                        .padding()
+                        .background(.regularMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                }
             }
             Spacer()
             Button("Add Homework"){
-                var tempRating = Int(selectedhomeworkRating) ?? -1
-                var tempDifficulty = Int(selectedPersonalDifficulty) ?? -1
+                let tempRating = Int(selectedhomeworkRating) ?? -1
+                let tempDifficulty = Int(selectedPersonalDifficulty) ?? -1
                 if tempRating != -1 && tempDifficulty != -1 {
-                    let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: tempRating, homeworkDifficulty: tempDifficulty, subject: selectedSubject, dueDate: selectedDueDate)
-                    if let index = appData.shared.subject.homeworkType[selectedSubject]{
+                    let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: tempRating, homeworkDifficulty: tempDifficulty, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: Int(selectedTimeSpent) ?? 0)
                         print(selectedSubject)
-                        print(String(index))
-                        appData.shared.subject.homework[index].append(temp)
-                        print("success?")
-                        print(appData.shared.subject.homework[index])
+                    if let a = appData.shared.subjects[selectedSubject]{
+                        a.homework.append(temp)
                     }
+                        print("success?")
                     
                     selectedSubject = "--"
                     selectedHomeworkType = "--"

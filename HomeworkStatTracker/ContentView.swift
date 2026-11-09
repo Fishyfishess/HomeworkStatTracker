@@ -13,7 +13,7 @@ class appData{
     private init(){
     }
     var toDoList: [Homework] = []
-    var subject = Subject()
+    var subjects : [String : Subject] = ["English": Subject(), "Math" : Subject(), "Computer cience" : Subject(), "Science" : Subject(), "Social science" : Subject()]
 }
 
 struct ContentView: View {
