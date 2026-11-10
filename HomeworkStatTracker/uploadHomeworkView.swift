@@ -15,6 +15,7 @@ struct uploadHomeworkView: View {
     @State var selectedPersonalDifficulty = "--"
     @State var selectedhomeworkRating = "--"
     @State var selectedTimeSpent = ""
+    @State var intPlsAlert = false
     var body: some View {
         VStack{
             Text("Upload old homework")
@@ -198,6 +199,9 @@ struct uploadHomeworkView: View {
                         .padding()
                         .background(.regularMaterial)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .onChange(of: selectedTimeSpent) {
+                            //let
+                        }
                 }
             }
             Spacer()
@@ -218,11 +222,15 @@ struct uploadHomeworkView: View {
                     homeworkName = ""
                     selectedPersonalDifficulty = "--"
                     selectedhomeworkRating = "--"
+                    selectedTimeSpent = ""
                 }
             }
             .buttonStyle(.glassProminent)
         }
         .padding()
+        .alert("Please enter a number for time spent", isPresented: $intPlsAlert) {
+            
+        }
     }
 }
 

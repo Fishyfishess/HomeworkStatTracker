@@ -11,12 +11,24 @@ struct HomeworkDetailView: View {
     @Environment(\.dismiss) private var dismiss
     var homework : Homework
     var body: some View {
+        @State var rating = appData.shared.subjects[homework.subject]?.analyzeRating(homeworkType: homework.homeworkType)
+        @State var difficulty = appData.shared.subjects[homework.subject]?.analyzeDifficulty(homeworkType: homework.homeworkType)
+        @State var timeSpent = appData.shared.subjects[homework.subject]?.analyzeTimeSpent(homeworkType: homework.homeworkType)
         VStack{
             Text("\(homework.homeworkName) (\(homework.homeworkType))")
                 .font(.custom("Georgia", size: 40, relativeTo: .headline))
             Text("Due date: \(homework.dueDate.formatted(date: .abbreviated, time: .omitted))")
                 .font(.custom("Georgia", size: 20, relativeTo: .headline))
             Text("Subject: \(homework.subject)")
+                .font(.custom("Georgia", size: 20, relativeTo: .headline))
+            Spacer()
+            Text("Statistics for this homework type below:")
+                .font(.custom("Georgia", size: 30, relativeTo: .headline))
+            Text("Average personal rating: \(rating ?? -1)")
+                .font(.custom("Georgia", size: 20, relativeTo: .headline))
+            Text("Average personal difficulty: \(difficulty ?? -1)")
+                .font(.custom("Georgia", size: 20, relativeTo: .headline))
+            Text("Average  time spent: \(timeSpent ?? -1)")
                 .font(.custom("Georgia", size: 20, relativeTo: .headline))
             Spacer()
 //            Text("Average rating: \(homework.avgHomeworkRating) \n Average difficulty: \(homework.avgHomeworkDifficulty)")
@@ -38,10 +50,6 @@ struct HomeworkDetailView: View {
                 }
                 .buttonStyle(.glassProminent)
             }
-            
-            //varius random stats for aifnakshgbahgb Testing RAHH
-            
-            
         }
         .padding()
     }
