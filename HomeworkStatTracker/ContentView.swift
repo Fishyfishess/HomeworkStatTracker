@@ -50,7 +50,7 @@ struct ContentView: View {
                         uploadHomeworkView()
                     }
                     Tab("Settings", systemImage: "gearshape.fill"){
-                        SettingsView()
+                        settingsView()
                     }
                 }
         }

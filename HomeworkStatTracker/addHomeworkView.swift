@@ -12,6 +12,7 @@ struct addHomeworkView: View {
     @State var selectedHomeworkType = "--"
     @State var selectedDueDate = Date.now
     @State var homeworkName = ""
+    @State var plsFillOutAllFields = false
     var body: some View {
         VStack{
             Text("Add new homework")
@@ -123,17 +124,24 @@ struct addHomeworkView: View {
             }
             Spacer()
             Button("Add Homework"){
-                let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: 0)
-                appData.shared.toDoList.append(temp)
-                
-                selectedSubject = "--"
-                selectedHomeworkType = "--"
-                selectedDueDate = Date.now
-                homeworkName = ""
+                if homeworkName != "" && selectedSubject != "--" && selectedHomeworkType != "--"{
+                    let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: 0)
+                    appData.shared.toDoList.append(temp)
+                    
+                    selectedSubject = "--"
+                    selectedHomeworkType = "--"
+                    selectedDueDate = Date.now
+                    homeworkName = ""
+                } else {
+                    plsFillOutAllFields.toggle()
+                }
             }
             .buttonStyle(.glassProminent)
         }
         .padding()
+        .alert("Please fill out every field", isPresented: $plsFillOutAllFields) {
+            
+        }
     }
 }
 
