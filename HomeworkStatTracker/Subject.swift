@@ -24,7 +24,11 @@ class Subject{
                 totalRating += Double((homework[i].homeworkRating))
             }
         }
-        return totalRating / Double(homework.count)
+        if totalRating != 0.0{
+            return totalRating / Double(homework.count)
+        } else {
+            return 0
+        }
     }
     
     func analyzeDifficulty(homeworkType: String) -> Double {
@@ -34,7 +38,11 @@ class Subject{
                 totalDifficulty += Double((homework[i].homeworkDifficulty))
             }
         }
-        return totalDifficulty / Double(homework.count)
+        if totalDifficulty != 0.0{
+            return totalDifficulty / Double(homework.count)
+        } else {
+            return 0
+        }
     }
     
     func analyzeTimeSpent(homeworkType: String) -> Double {
@@ -44,6 +52,10 @@ class Subject{
                 totalTimeSpent += Double((homework[i].timeSpent))
             }
         }
-        return totalTimeSpent / Double(homework.count)
+        if totalTimeSpent != 0.0{
+            return totalTimeSpent / Double(homework.count)
+        } else {
+            return 0
+        }
     }
 }

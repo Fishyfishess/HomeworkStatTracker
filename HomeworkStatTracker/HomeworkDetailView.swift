@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct HomeworkDetailView: View {
     @Environment(\.dismiss) private var dismiss
@@ -14,6 +15,8 @@ struct HomeworkDetailView: View {
     @State var thisDifficulty = "--"
     @State var thisTimeSpent = ""
     @State var submit = false
+    @State var intPlsAlert = false
+    @State var plsEnterAllFields = false
     var body: some View {
         @State var rating = appData.shared.subjects[homework.subject]?.analyzeRating(homeworkType: homework.homeworkType)
         @State var difficulty = appData.shared.subjects[homework.subject]?.analyzeDifficulty(homeworkType: homework.homeworkType)
@@ -22,6 +25,7 @@ struct HomeworkDetailView: View {
             VStack{
                 Text("\(homework.homeworkName) (\(homework.homeworkType))")
                     .font(.custom("Georgia", size: 40, relativeTo: .headline))
+                    .multilineTextAlignment(.center)
                 Text("Due date: \(homework.dueDate.formatted(date: .abbreviated, time: .omitted))")
                     .font(.custom("Georgia", size: 20, relativeTo: .headline))
                 Text("Subject: \(homework.subject)")
@@ -30,12 +34,18 @@ struct HomeworkDetailView: View {
                 Text("Statistics for this homework type below:")
                     .font(.custom("Georgia", size: 30, relativeTo: .headline))
                 Spacer()
-                Text("Average personal rating: \(rating ?? -1)")
-                    .font(.custom("Georgia", size: 20, relativeTo: .headline))
-                Text("Average personal difficulty: \(difficulty ?? -1)")
-                    .font(.custom("Georgia", size: 20, relativeTo: .headline))
-                Text("Average  time spent: \(timeSpent ?? -1)")
-                    .font(.custom("Georgia", size: 20, relativeTo: .headline))
+                if rating == 0 {
+                    Text("Not enough data to show stats. Will be avaliable once enough homework of this type is submitted")
+                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
+                        .multilineTextAlignment(.center)
+                } else {
+                    Text("Average personal rating: \((rating ?? -1).formatted(.number.precision(.fractionLength(2))))")
+                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
+                    Text("Average personal difficulty: \((difficulty ?? -1).formatted(.number.precision(.fractionLength(2))))")
+                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
+                    Text("Average  time spent: \((timeSpent ?? -1).formatted(.number.precision(.fractionLength(2))))")
+                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
+                }
                 Spacer()
                 //            Text("Average rating: \(homework.avgHomeworkRating) \n Average difficulty: \(homework.avgHomeworkDifficulty)")
                 //                .font(.custom("Georgia", size: 20, relativeTo: .headline))
@@ -108,26 +118,32 @@ struct HomeworkDetailView: View {
                     }
                     .padding()
                     HStack{
-                        Button("submit"){
-                            if let x = Int(thisRating) {
-                                homework.homeworkRating = x
-                            }
-                            if let y = Int(thisDifficulty) {
-                                homework.homeworkDifficulty = y
-                            }
-                            if let z = Int(thisTimeSpent) {
-                                homework.timeSpent = z
-                            }
-                            if let a = appData.shared.subjects[homework.subject]{
-                                a.homework.append(homework)
-                                print("success?")
-                            }
-                            for i in 0..<appData.shared.toDoList.count{
-                                if appData.shared.toDoList[i].uid == homework.uid {
-                                    appData.shared.toDoList.remove(at: i)
+                        Button("Finish"){
+                            if thisRating != "--" && thisDifficulty != "--" && thisTimeSpent != ""{
+                                if let z = Int(thisTimeSpent){
+                                    if let x = Int(thisRating) {
+                                        homework.homeworkRating = x
+                                    }
+                                    if let y = Int(thisDifficulty) {
+                                        homework.homeworkDifficulty = y
+                                    }
+                                    homework.timeSpent = z
+                                    if let a = appData.shared.subjects[homework.subject]{
+                                        a.homework.append(homework)
+                                        print("success?")
+                                    }
+                                    for i in 0..<appData.shared.toDoList.count{
+                                        if appData.shared.toDoList[i].uid == homework.uid {
+                                            appData.shared.toDoList.remove(at: i)
+                                        }
+                                    }
+                                    dismiss()
+                                } else {
+                                    intPlsAlert.toggle()
                                 }
+                            } else {
+                                plsEnterAllFields.toggle()
                             }
-                            dismiss()
                         }
                         .buttonStyle(.glassProminent)
                         Button("return"){
@@ -166,10 +182,16 @@ struct HomeworkDetailView: View {
                 }
             }
             .padding()
+            .alert("Please enter a number for time spent", isPresented: $intPlsAlert) {
+                
+            }
+            .alert("Please fill out every field", isPresented: $plsEnterAllFields){
+                
+            }
         }
     }
 }
 
 #Preview {
-    HomeworkDetailView(homework: Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: -1, homeworkDifficulty: -1, subject: "N/A", dueDate: Date.distantPast, timeSpent: 0))
+    HomeworkDetailView(homework: Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 2, homeworkDifficulty: 3, subject: "N/A", dueDate: Date.distantPast, timeSpent: 0))
 }
