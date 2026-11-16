@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import SwiftData
 struct Homework{
+    
     //each one can store one homework
     //save these into subject
     var homeworkType: String

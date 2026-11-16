@@ -33,7 +33,7 @@ struct ContentView: View {
                                         .listRowBackground(Color.clear)
                                 } else {
                                     ForEach(appData.shared.toDoList, id:\.dueDate){ homework in
-                                        NavigationLink("\(homework.homeworkName) \(homework.dueDate.formatted(date: .abbreviated, time: .omitted))") {
+                                        NavigationLink("\(homework.homeworkName) | Due:  \(homework.dueDate.formatted(date: .abbreviated, time: .omitted))") {
                                             HomeworkDetailView(homework: homework)
                                         }
                                     }
