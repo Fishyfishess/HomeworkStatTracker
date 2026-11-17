@@ -6,8 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct uploadHomeworkView: View {
+    
+    @Environment(\.modelContext) var context
+    @Query var subjects: [Subject]
+    
     @State var selectedSubject = "--"
     @State var selectedHomeworkType = "--"
     @State var selectedDueDate = Date.now
@@ -211,9 +216,17 @@ struct uploadHomeworkView: View {
                         if tempRating != -1 && tempDifficulty != -1 {
                             let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: tempRating, homeworkDifficulty: tempDifficulty, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: x)
                             print(selectedSubject)
-                            if let a = appData.shared.subjects[selectedSubject]{
-                                a.homework.append(temp)
+                            print(appData.shared.subjects.count)
+                            for subject in appData.shared.subjects {
+                                print("prog")
+                                if subject.subject == selectedSubject{
+                                    subject.homework.append(temp)
+                                    //print(appData.shared.subjects[0].homework[0].homeworkRating)
+                                }
                             }
+//                            if let a = appData.shared.subjects[selectedSubject]{
+//                                a.homework.append(temp)
+//                            }
                             print("success?")
                             
                             selectedSubject = "--"
@@ -234,19 +247,37 @@ struct uploadHomeworkView: View {
             .buttonStyle(.glassProminent)
             
             Button("testing"){
+                print("zamn")
                 let temp = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 5, homeworkDifficulty: 5, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
                 let temp1 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 4, homeworkDifficulty: 4, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
                 let temp2 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 3, homeworkDifficulty: 3, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
                 let temp3 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 2, homeworkDifficulty: 2, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
                 let temp4 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 1, homeworkDifficulty: 1, subject: "English", dueDate: selectedDueDate, timeSpent: 40)
-                if let a = appData.shared.subjects["English"]{
-                    a.homework.append(temp)
-                    a.homework.append(temp1)
-                    a.homework.append(temp2)
-                    a.homework.append(temp3)
-                    a.homework.append(temp4)
-
+//                if let a = appData.shared.subjects["English"]{
+//                    a.homework.append(temp)
+//                    a.homework.append(temp1)
+//                    a.homework.append(temp2)
+//                    a.homework.append(temp3)
+//                    a.homework.append(temp4)
+//
+//                }
+                for subject in appData.shared.subjects {
+                    print("run")
+                    if subject.subject == "English"{
+                        print("through")
+                        subject.homework.append(temp)
+                        subject.homework.append(temp1)
+                        subject.homework.append(temp2)
+                        subject.homework.append(temp3)
+                        subject.homework.append(temp4)
+                        print("success")
+                    }
                 }
+                print(appData.shared.subjects[0].homework[0].homeworkRating)
+                print(appData.shared.subjects[0].homework[1].homeworkRating)
+                print(appData.shared.subjects[0].homework[2].homeworkRating)
+                print(appData.shared.subjects[0].homework[3].homeworkRating)
+                print(appData.shared.subjects[0].homework[4].homeworkRating)
             }
         }
         .padding()

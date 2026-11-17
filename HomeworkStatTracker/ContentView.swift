@@ -6,17 +6,21 @@
 //
 
 import SwiftUI
-
+import SwiftData
 @Observable
 class appData{
     static var shared = appData()
     private init(){
     }
     var toDoList: [Homework] = []
-    var subjects : [String : Subject] = ["English": Subject(), "Math" : Subject(), "Computer cience" : Subject(), "Science" : Subject(), "Social science" : Subject()]
+    var subjects : [Subject] = [Subject(subject: "English"), Subject(subject: "Math"), Subject(subject: "Computer science"), Subject(subject: "Science"), Subject(subject: "Social science")]
 }
 
 struct ContentView: View {
+    @Environment(\.modelContext) var context
+    @Query var subjects: [Subject]
+    @Query var Homework: [Homework]
+    
     @State var dailyQuotes: [String] = ["hey"]
     var body: some View {
         NavigationStack{
@@ -52,6 +56,26 @@ struct ContentView: View {
                     Tab("Settings", systemImage: "gearshape.fill"){
                         settingsView()
                     }
+                }
+                .onAppear {
+                    for subject in appData.shared.subjects {
+                        let J = subject
+                        context.insert(J)
+                        print(subject.subject)
+                        try? context.save()
+                        print(subjects)
+                    }
+                    for homework in appData.shared.toDoList {
+                        context.insert(homework)
+                        print(homework.homeworkName)
+                        try? context.save()
+                        print(Homework)
+                    }
+                    //print(Homework.count)
+                    print(appData.shared.subjects.count)
+                    print(subjects.count)
+//                    appData.shared.toDoList = Homework
+//                    appData.shared.subjects = subjects
                 }
         }
     }

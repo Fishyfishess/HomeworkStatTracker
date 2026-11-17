@@ -17,10 +17,10 @@ struct HomeworkDetailView: View {
     @State var submit = false
     @State var intPlsAlert = false
     @State var plsEnterAllFields = false
+    @State var rating = -1.0
+    @State var difficulty = -1.0
+    @State var timeSpent = -1.0
     var body: some View {
-        @State var rating = appData.shared.subjects[homework.subject]?.analyzeRating(homeworkType: homework.homeworkType)
-        @State var difficulty = appData.shared.subjects[homework.subject]?.analyzeDifficulty(homeworkType: homework.homeworkType)
-        @State var timeSpent = appData.shared.subjects[homework.subject]?.analyzeTimeSpent(homeworkType: homework.homeworkType)
         NavigationStack{
             VStack{
                 Text("\(homework.homeworkName) (\(homework.homeworkType))")
@@ -39,11 +39,11 @@ struct HomeworkDetailView: View {
                         .font(.custom("Georgia", size: 20, relativeTo: .headline))
                         .multilineTextAlignment(.center)
                 } else {
-                    Text("Average personal rating: \((rating ?? -1).formatted(.number.precision(.fractionLength(2))))")
+                    Text("Average personal rating: \((rating).formatted(.number.precision(.fractionLength(2))))")
                         .font(.custom("Georgia", size: 20, relativeTo: .headline))
-                    Text("Average personal difficulty: \((difficulty ?? -1).formatted(.number.precision(.fractionLength(2))))")
+                    Text("Average personal difficulty: \((difficulty).formatted(.number.precision(.fractionLength(2))))")
                         .font(.custom("Georgia", size: 20, relativeTo: .headline))
-                    Text("Average  time spent: \((timeSpent ?? -1).formatted(.number.precision(.fractionLength(2))))")
+                    Text("Average  time spent: \((timeSpent).formatted(.number.precision(.fractionLength(2))))")
                         .font(.custom("Georgia", size: 20, relativeTo: .headline))
                 }
                 Spacer()
@@ -128,9 +128,14 @@ struct HomeworkDetailView: View {
                                         homework.homeworkDifficulty = y
                                     }
                                     homework.timeSpent = z
-                                    if let a = appData.shared.subjects[homework.subject]{
-                                        a.homework.append(homework)
-                                        print("success?")
+//                                    if let a = appData.shared.subjects[homework.subject]{
+//                                        a.homework.append(homework)
+//                                        print("success?")
+//                                    }
+                                    for subject in appData.shared.subjects {
+                                        if subject.subject == homework.subject{
+                                            subject.homework.append(homework)
+                                        }
                                     }
                                     for i in 0..<appData.shared.toDoList.count{
                                         if appData.shared.toDoList[i].uid == homework.uid {
@@ -187,6 +192,27 @@ struct HomeworkDetailView: View {
             }
             .alert("Please fill out every field", isPresented: $plsEnterAllFields){
                 
+            }
+            .onAppear {
+                for subject in appData.shared.subjects {
+                    if subject.subject == homework.subject{
+                        rating = subject.analyzeRating(homeworkType: homework.homeworkType)
+                        difficulty = subject.analyzeDifficulty(homeworkType: homework.homeworkType)
+                        timeSpent = subject.analyzeTimeSpent(homeworkType: homework.homeworkType)
+                        
+//                        print(subject.homework[0].homeworkRating)
+//                        print(subject.homework[1].homeworkRating)
+//                        print(subject.homework[2].homeworkRating)
+//                        print(subject.homework[3].homeworkRating)
+//                        print(subject.homework[4].homeworkRating)
+//                        
+//                        print("done")
+//                        print(rating)
+//                        print(difficulty)
+//                        print(timeSpent)
+//                        print(subject.subject)
+                    }
+                }
             }
         }
     }
