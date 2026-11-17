@@ -273,11 +273,11 @@ struct uploadHomeworkView: View {
                         print("success")
                     }
                 }
-                print(appData.shared.subjects[0].homework[0].homeworkRating)
-                print(appData.shared.subjects[0].homework[1].homeworkRating)
-                print(appData.shared.subjects[0].homework[2].homeworkRating)
-                print(appData.shared.subjects[0].homework[3].homeworkRating)
-                print(appData.shared.subjects[0].homework[4].homeworkRating)
+//                print(appData.shared.subjects[0].homework[0].homeworkRating)
+//                print(appData.shared.subjects[0].homework[1].homeworkRating)
+//                print(appData.shared.subjects[0].homework[2].homeworkRating)
+//                print(appData.shared.subjects[0].homework[3].homeworkRating)
+//                print(appData.shared.subjects[0].homework[4].homeworkRating)
             }
         }
         .padding()

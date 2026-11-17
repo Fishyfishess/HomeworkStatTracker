@@ -19,7 +19,7 @@ class appData{
 struct ContentView: View {
     @Environment(\.modelContext) var context
     @Query var subjects: [Subject]
-    @Query var Homework: [Homework]
+    @Query var Homeworks: [Homework]
     
     @State var dailyQuotes: [String] = ["hey"]
     var body: some View {
@@ -46,6 +46,34 @@ struct ContentView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                         }
                         .padding()
+                        .onAppear {
+                            do {
+                                try context.delete(model: Subject.self)
+                                try context.delete(model: Homework.self)
+                            } catch {
+                                
+                            }
+                            print(appData.shared.subjects.count)
+                            print(subjects.count)
+                            for subject in appData.shared.subjects {
+                                context.insert(subject)
+                                print(subject.subject)
+                                try? context.save()
+                                print(subjects)
+                            }
+                            for homework in appData.shared.toDoList {
+                                context.insert(homework)
+                                print(homework.homeworkName)
+                                try? context.save()
+                                print(Homeworks)
+                            }
+                            appData.shared.toDoList = Homeworks
+                            appData.shared.subjects = subjects
+                            //print(Homework.count)
+                            print(appData.shared.subjects.count)
+                            print(subjects.count)
+                            
+                        }
                     }
                     Tab("Add", systemImage: "plus") {
                         addHomeworkView()
@@ -57,26 +85,32 @@ struct ContentView: View {
                         settingsView()
                     }
                 }
-                .onAppear {
-                    for subject in appData.shared.subjects {
-                        let J = subject
-                        context.insert(J)
-                        print(subject.subject)
-                        try? context.save()
-                        print(subjects)
-                    }
-                    for homework in appData.shared.toDoList {
-                        context.insert(homework)
-                        print(homework.homeworkName)
-                        try? context.save()
-                        print(Homework)
-                    }
-                    //print(Homework.count)
-                    print(appData.shared.subjects.count)
-                    print(subjects.count)
-//                    appData.shared.toDoList = Homework
+//                .onAppear {
+//                    do {
+//                        try context.delete(model: Subject.self)
+//                        try context.delete(model: Homework.self)
+//                    } catch {
+//                        
+//                    }
+//                    for subject in appData.shared.subjects {
+//                        context.insert(subject)
+//                        print(subject.subject)
+//                        try? context.save()
+//                        print(subjects)
+//                    }
+//                    for homework in appData.shared.toDoList {
+//                        context.insert(homework)
+//                        print(homework.homeworkName)
+//                        try? context.save()
+//                        print(Homeworks)
+//                    }
+//                    appData.shared.toDoList = Homeworks
 //                    appData.shared.subjects = subjects
-                }
+//                    //print(Homework.count)
+//                    print(appData.shared.subjects.count)
+//                    print(subjects.count)
+//                    
+//                }
         }
     }
 }
