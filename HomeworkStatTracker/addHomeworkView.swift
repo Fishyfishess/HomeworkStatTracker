@@ -130,9 +130,10 @@ struct addHomeworkView: View {
             Spacer()
             Button("Add Homework"){
                 if homeworkName != "" && selectedSubject != "--" && selectedHomeworkType != "--"{
-                    let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: 0)
+                    let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: 0, finished: false)
                     //appData.shared.toDoList.append(temp)
                     context.insert(temp)
+                    print("added")
                     try? context.save()
                     //print(Homeworks.count)
                     selectedSubject = "--"

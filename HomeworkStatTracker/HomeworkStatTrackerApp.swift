@@ -10,10 +10,10 @@ import SwiftData
 
 @main
 struct HomeworkStatTrackerApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
+var body: some Scene {
+WindowGroup {
+ContentView()
                 .modelContainer(for: [Subject.self, Homework.self])
-        }
-    }
+}
+}
 }
