@@ -11,8 +11,9 @@ import SwiftData
 struct uploadHomeworkView: View {
     
     @Environment(\.modelContext) var context
-    @Query var subjects: [Subject]
+    //@Query var subjects: [Subject]
     
+    @Binding var subjectsPersistance: [Subject]
     @State var selectedSubject = "--"
     @State var selectedHomeworkType = "--"
     @State var selectedDueDate = Date.now
@@ -216,17 +217,19 @@ struct uploadHomeworkView: View {
                         if tempRating != -1 && tempDifficulty != -1 {
                             let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: tempRating, homeworkDifficulty: tempDifficulty, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: x)
                             print(selectedSubject)
-                            print(appData.shared.subjects.count)
-                            for subject in appData.shared.subjects {
+                            
+                            for subject in subjectsPersistance {
                                 print("prog")
                                 if subject.subject == selectedSubject{
+                                    //let j = subject
                                     subject.homework.append(temp)
-                                    //print(appData.shared.subjects[0].homework[0].homeworkRating)
+                                    //context.insert(j)
+                                    print(subject.subject)
+                                    print(subject.homework.count)
+                                    try? context.save()
                                 }
                             }
-//                            if let a = appData.shared.subjects[selectedSubject]{
-//                                a.homework.append(temp)
-//                            }
+                            
                             print("success?")
                             
                             selectedSubject = "--"
@@ -261,18 +264,18 @@ struct uploadHomeworkView: View {
 //                    a.homework.append(temp4)
 //
 //                }
-                for subject in appData.shared.subjects {
-                    print("run")
-                    if subject.subject == "English"{
-                        print("through")
-                        subject.homework.append(temp)
-                        subject.homework.append(temp1)
-                        subject.homework.append(temp2)
-                        subject.homework.append(temp3)
-                        subject.homework.append(temp4)
-                        print("success")
-                    }
-                }
+//                for subject in appData.shared.subjects {
+//                    print("run")
+//                    if subject.subject == "English"{
+//                        print("through")
+//                        subject.homework.append(temp)
+//                        subject.homework.append(temp1)
+//                        subject.homework.append(temp2)
+//                        subject.homework.append(temp3)
+//                        subject.homework.append(temp4)
+//                        print("success")
+//                    }
+//                }
 //                print(appData.shared.subjects[0].homework[0].homeworkRating)
 //                print(appData.shared.subjects[0].homework[1].homeworkRating)
 //                print(appData.shared.subjects[0].homework[2].homeworkRating)
@@ -291,5 +294,5 @@ struct uploadHomeworkView: View {
 }
 
 #Preview {
-    uploadHomeworkView()
+    uploadHomeworkView(subjectsPersistance: .constant([Subject(subject: "N/A")]))
 }

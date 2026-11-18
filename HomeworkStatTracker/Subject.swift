@@ -14,8 +14,6 @@ class Subject{
     var homework : [Homework] = []
     //each row is one type of homework
     var data : [String : Int] = [:]
-    //dictionary that records the homework type and its index
-    //var homeworkType: [String:Int] = ["English": 0, "Math": 1, "Science": 2, "Social science": 3, "Computer science": 4]
     var subject : String
     
     init(subject: String) {
