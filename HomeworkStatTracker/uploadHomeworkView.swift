@@ -11,276 +11,249 @@ import SwiftData
 struct uploadHomeworkView: View {
     
     @Environment(\.modelContext) var context
-    //@Query var subjects: [Subject]
+    @Query var subjects: [Subject]
     
-    @Binding var subjectsPersistance: [Subject]
-    @Binding var homeworksPersistance : [Homework]
-    
-    @State var selectedSubject = "--"
-    @State var selectedHomeworkType = "--"
-    @State var selectedDueDate = Date.now
-    @State var homeworkName = ""
-    @State var selectedPersonalDifficulty = "--"
-    @State var selectedhomeworkRating = "--"
-    @State var selectedTimeSpent = ""
-    @State var intPlsAlert = false
-    @State var plsEnterAllFields = false
-    var body: some View {
-        VStack{
-            Text("Upload old homework")
-                .font(.custom("Georgia", size: 40, relativeTo: .headline))
-            Spacer()
-            VStack(alignment: .leading){
-                HStack{
-                    Label("Homework Name:", image: "")
-                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
-                        .labelStyle(.titleOnly)
-                        .padding()
-                    
-                    TextField("Homework", text: $homeworkName)
-                        .frame(width: 135)
-                        .padding()
-                        .background(.regularMaterial)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                }
-                HStack{
-                    Label("Subject:", image: "")
-                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
-                        .labelStyle(.titleOnly)
-                        .padding()
-                    
-                    Menu {
-                        Button("English"){
-                            selectedSubject = "English"
-                        }
-                        Button("Math"){
-                            selectedSubject = "Math"
-                        }
-                        Button("Science"){
-                            selectedSubject = "Science"
-                        }
-                        Button("Social sciences"){
-                            selectedSubject = "Social science"
-                        }
-                        Button("Computer science"){
-                            selectedSubject = "Computer science"
-                        }
-                    } label: {
-                        Label(selectedSubject, systemImage: "chevron.down")
-                            .frame(width: 225)
-                            .padding()
-                            .background(.regularMaterial)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .foregroundStyle(.black)
-                    }
-                }
-                
-                HStack{
-                    Label("Homework Type:", image: "")
-                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
-                        .labelStyle(.titleOnly)
-                        .padding()
-                    
-                    Menu {
-                        if selectedSubject == "English" {
-                            Button("Essay"){
-                                selectedHomeworkType = "Essay"
-                            }
-                        } else if selectedSubject == "Math" {
-                            Button("Webassign"){
-                                selectedHomeworkType = "Webassign"
-                            }
-                        } else if selectedSubject == "Science" {
-                            Button("Worksheet"){
-                                selectedHomeworkType = "Worksheet"
-                            }
-                        } else if selectedSubject == "Social science" {
-                            Button("Reading"){
-                                selectedHomeworkType = "Reading"
-                            }
-                        } else if selectedSubject == "Computer science" {
-                            Button("kill the bugs"){
-                                selectedHomeworkType = "kill the bugs"
-                            }
-                        } else {
-                            Text("select a subject first")
-                        }
-                    } label: {
-                        Label(selectedHomeworkType, systemImage: "chevron.down")
-                            .frame(width: 140)
-                            .padding()
-                            .background(.regularMaterial)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .foregroundStyle(.black)
-                    }
-                }
-                
-                HStack{
-                    Label("Due Date: ", image: "")
-                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
-                        .labelStyle(.titleOnly)
-                        .padding()
-                    ZStack{
-                        DatePicker("", selection: $selectedDueDate, displayedComponents: .date)
-                            .frame(width: 235, height: 50)
-                            .labelsHidden()
-                            .blendMode(.destinationOver)
-                            .background(.regularMaterial)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .overlay {
-                                Label(selectedDueDate.formatted(date: .abbreviated, time: .omitted), systemImage: "chevron.down")
-                            }
-                    }
-                }
-                
-                HStack{
-                    Label("Personal Difficulty:", image: "")
-                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
-                        .labelStyle(.titleOnly)
-                        .padding()
-                    
-                    Menu {
-                        Button("5"){
-                            selectedPersonalDifficulty = "5"
-                        }
-                        Button("4"){
-                            selectedPersonalDifficulty = "4"
-                        }
-                        Button("3"){
-                            selectedPersonalDifficulty = "3"
-                        }
-                        Button("2"){
-                            selectedPersonalDifficulty = "2"
-                        }
-                        Button("1"){
-                            selectedPersonalDifficulty = "1"
-                        }
-                    } label: {
-                        Label(selectedPersonalDifficulty, systemImage: "chevron.down")
-                            .frame(width: 125)
-                            .padding()
-                            .background(.regularMaterial)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .foregroundStyle(.black)
-                    }
-                }
-                
-                HStack{
-                    Label("Homework Rating:", image: "")
-                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
-                        .labelStyle(.titleOnly)
-                        .padding()
-                    
-                    Menu {
-                        Button("5"){
-                            selectedhomeworkRating = "5"
-                        }
-                        Button("4"){
-                            selectedhomeworkRating = "4"
-                        }
-                        Button("3"){
-                            selectedhomeworkRating = "3"
-                        }
-                        Button("2"){
-                            selectedhomeworkRating = "2"
-                        }
-                        Button("1"){
-                            selectedhomeworkRating = "1"
-                        }
-                    } label: {
-                        Label(selectedhomeworkRating, systemImage: "chevron.down")
-                            .frame(width: 125)
-                            .padding()
-                            .background(.regularMaterial)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .foregroundStyle(.black)
-                    }
-                }
-                
-                HStack{
-                    Label("Time spent:", image: "")
-                        .font(.custom("Georgia", size: 20, relativeTo: .headline))
-                        .labelStyle(.titleOnly)
-                        .padding()
-                    
-                    TextField("Time spent (in minutes)", text: $selectedTimeSpent)
-                        .frame(width: 190)
-                        .padding()
-                        .background(.regularMaterial)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                }
-            }
-            Spacer()
-            Button("Upload Homework"){
-                if homeworkName != "" && selectedSubject != "--" && selectedHomeworkType != "--" && selectedPersonalDifficulty != "--" && selectedhomeworkRating != "--" && selectedTimeSpent != "" {
-                    if let x = Int(selectedTimeSpent){
-                        let tempRating = Int(selectedhomeworkRating) ?? -1
-                        let tempDifficulty = Int(selectedPersonalDifficulty) ?? -1
-                        if tempRating != -1 && tempDifficulty != -1 {
-                            let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: tempRating, homeworkDifficulty: tempDifficulty, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: x, finished: true)
-                            print(selectedSubject)
-                            print(temp.uid)
-                            for subject in subjectsPersistance {
+@State var selectedSubject = "--"
+@State var selectedHomeworkType = "--"
+@State var selectedDueDate = Date.now
+@State var homeworkName = ""
+@State var selectedPersonalDifficulty = "--"
+@State var selectedhomeworkRating = "--"
+@State var selectedTimeSpent = ""
+@State var intPlsAlert = false
+@State var plsEnterAllFields = false
+var body: some View {
+VStack{
+Text("Upload old homework")
+.font(.custom("Georgia", size: 40, relativeTo: .headline))
+Spacer()
+VStack(alignment: .leading){
+HStack{
+Label("Homework Name:", image: "")
+.font(.custom("Georgia", size: 20, relativeTo: .headline))
+.labelStyle(.titleOnly)
+.padding()
+
+TextField("Homework", text: $homeworkName)
+.frame(width: 135)
+.padding()
+.background(.regularMaterial)
+.clipShape(RoundedRectangle(cornerRadius: 20))
+}
+HStack{
+Label("Subject:", image: "")
+.font(.custom("Georgia", size: 20, relativeTo: .headline))
+.labelStyle(.titleOnly)
+.padding()
+
+Menu {
+Button("English"){
+selectedSubject = "English"
+}
+Button("Math"){
+selectedSubject = "Math"
+}
+Button("Science"){
+selectedSubject = "Science"
+}
+Button("Social sciences"){
+selectedSubject = "Social science"
+}
+Button("Computer science"){
+selectedSubject = "Computer science"
+}
+} label: {
+Label(selectedSubject, systemImage: "chevron.down")
+.frame(width: 225)
+.padding()
+.background(.regularMaterial)
+.clipShape(RoundedRectangle(cornerRadius: 20))
+.foregroundStyle(.black)
+}
+}
+
+HStack{
+Label("Homework Type:", image: "")
+.font(.custom("Georgia", size: 20, relativeTo: .headline))
+.labelStyle(.titleOnly)
+.padding()
+
+Menu {
+if selectedSubject == "English" {
+Button("Essay"){
+selectedHomeworkType = "Essay"
+}
+} else if selectedSubject == "Math" {
+Button("Webassign"){
+selectedHomeworkType = "Webassign"
+}
+} else if selectedSubject == "Science" {
+Button("Worksheet"){
+selectedHomeworkType = "Worksheet"
+}
+} else if selectedSubject == "Social science" {
+Button("Reading"){
+selectedHomeworkType = "Reading"
+}
+} else if selectedSubject == "Computer science" {
+Button("kill the bugs"){
+selectedHomeworkType = "kill the bugs"
+}
+} else {
+Text("select a subject first")
+}
+} label: {
+Label(selectedHomeworkType, systemImage: "chevron.down")
+.frame(width: 140)
+.padding()
+.background(.regularMaterial)
+.clipShape(RoundedRectangle(cornerRadius: 20))
+.foregroundStyle(.black)
+}
+}
+
+HStack{
+Label("Due Date: ", image: "")
+.font(.custom("Georgia", size: 20, relativeTo: .headline))
+.labelStyle(.titleOnly)
+.padding()
+ZStack{
+DatePicker("", selection: $selectedDueDate, displayedComponents: .date)
+.frame(width: 235, height: 50)
+.labelsHidden()
+.blendMode(.destinationOver)
+.background(.regularMaterial)
+.clipShape(RoundedRectangle(cornerRadius: 20))
+.overlay {
+Label(selectedDueDate.formatted(date: .abbreviated, time: .omitted), systemImage: "chevron.down")
+}
+}
+}
+
+HStack{
+Label("Personal Difficulty:", image: "")
+.font(.custom("Georgia", size: 20, relativeTo: .headline))
+.labelStyle(.titleOnly)
+.padding()
+
+Menu {
+Button("5"){
+selectedPersonalDifficulty = "5"
+}
+Button("4"){
+selectedPersonalDifficulty = "4"
+}
+Button("3"){
+selectedPersonalDifficulty = "3"
+}
+Button("2"){
+selectedPersonalDifficulty = "2"
+}
+Button("1"){
+selectedPersonalDifficulty = "1"
+}
+} label: {
+Label(selectedPersonalDifficulty, systemImage: "chevron.down")
+.frame(width: 125)
+.padding()
+.background(.regularMaterial)
+.clipShape(RoundedRectangle(cornerRadius: 20))
+.foregroundStyle(.black)
+}
+}
+
+HStack{
+Label("Homework Rating:", image: "")
+.font(.custom("Georgia", size: 20, relativeTo: .headline))
+.labelStyle(.titleOnly)
+.padding()
+
+Menu {
+Button("5"){
+selectedhomeworkRating = "5"
+}
+Button("4"){
+selectedhomeworkRating = "4"
+}
+Button("3"){
+selectedhomeworkRating = "3"
+}
+Button("2"){
+selectedhomeworkRating = "2"
+}
+Button("1"){
+selectedhomeworkRating = "1"
+}
+} label: {
+Label(selectedhomeworkRating, systemImage: "chevron.down")
+.frame(width: 125)
+.padding()
+.background(.regularMaterial)
+.clipShape(RoundedRectangle(cornerRadius: 20))
+.foregroundStyle(.black)
+}
+}
+
+HStack{
+Label("Time spent:", image: "")
+.font(.custom("Georgia", size: 20, relativeTo: .headline))
+.labelStyle(.titleOnly)
+.padding()
+
+TextField("Time spent (in minutes)", text: $selectedTimeSpent)
+.frame(width: 190)
+.padding()
+.background(.regularMaterial)
+.clipShape(RoundedRectangle(cornerRadius: 20))
+}
+}
+Spacer()
+Button("Upload Homework"){
+if homeworkName != "" && selectedSubject != "--" && selectedHomeworkType != "--" && selectedPersonalDifficulty != "--" && selectedhomeworkRating != "--" && selectedTimeSpent != "" {
+if let x = Int(selectedTimeSpent){
+let tempRating = Int(selectedhomeworkRating) ?? -1
+let tempDifficulty = Int(selectedPersonalDifficulty) ?? -1
+if tempRating != -1 && tempDifficulty != -1 {
+let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: tempRating, homeworkDifficulty: tempDifficulty, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: x)
+print(selectedSubject)
+                            print(appData.shared.subjects.count)
+                            for subject in appData.shared.subjects {
                                 print("prog")
                                 if subject.subject == selectedSubject{
-                                    //let j = subject
                                     subject.homework.append(temp)
-                                    //context.insert(j)
-                                    print(subject.subject)
-                                    print("homework before delete")
-                                    print(subject.homework.count)
-                                    //context.delete(temp)
-                                    try? context.save()
-                                    print(homeworkName)
-                                    print(subject.homework.last?.homeworkName ?? "failed")
-                                    print("homework after delete")
-                                    print(subject.homework.count)
-//                                    for i in 0..<homeworksPersistance.count{
-//                                        print(homeworksPersistance[i].uid)
-//                                        if homeworksPersistance[i].uid == temp.uid {
-//                                            //homeworksPersistance.remove(at: i)
-//                                            context.delete(homeworksPersistance[i])
-//                                            print("removed upload from homework")
-//                                        }
-//                                    }
-//                                    try? context.save()
+                                    //print(appData.shared.subjects[0].homework[0].homeworkRating)
                                 }
-                            }
-                            
-                            print("success?")
-                            
-                            selectedSubject = "--"
-                            selectedHomeworkType = "--"
-                            selectedDueDate = Date.now
-                            homeworkName = ""
-                            selectedPersonalDifficulty = "--"
-                            selectedhomeworkRating = "--"
-                            selectedTimeSpent = ""
-                            for i in 0..<homeworksPersistance.count{
-                                print(homeworksPersistance[i].uid)
-                                if homeworksPersistance[i].uid == temp.uid {
-                                    //homeworksPersistance.remove(at: i)
-                                    context.delete(homeworksPersistance[i])
-                                    print("removed upload from homework")
-                                }
-                            }
-                        }
-                    } else {
-                        intPlsAlert.toggle()
-                    }
-                } else {
-                    plsEnterAllFields.toggle()
-                }
-            }
-            .buttonStyle(.glassProminent)
-            
-//            Button("testing"){
-//                print("zamn")
-//                let temp = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 5, homeworkDifficulty: 5, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-//                let temp1 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 4, homeworkDifficulty: 4, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-//                let temp2 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 3, homeworkDifficulty: 3, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-//                let temp3 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 2, homeworkDifficulty: 2, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-//                let temp4 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 1, homeworkDifficulty: 1, subject: "English", dueDate: selectedDueDate, timeSpent: 40)
+}
+//                            if let a = appData.shared.subjects[selectedSubject]{
+//                                a.homework.append(temp)
+//                            }
+print("success?")
+
+selectedSubject = "--"
+selectedHomeworkType = "--"
+selectedDueDate = Date.now
+homeworkName = ""
+selectedPersonalDifficulty = "--"
+selectedhomeworkRating = "--"
+selectedTimeSpent = ""
+}
+} else {
+intPlsAlert.toggle()
+}
+} else {
+plsEnterAllFields.toggle()
+}
+}
+.buttonStyle(.glassProminent)
+
+Button("testing"){
+                print("zamn")
+let temp = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 5, homeworkDifficulty: 5, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+let temp1 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 4, homeworkDifficulty: 4, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+let temp2 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 3, homeworkDifficulty: 3, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+let temp3 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 2, homeworkDifficulty: 2, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+let temp4 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 1, homeworkDifficulty: 1, subject: "English", dueDate: selectedDueDate, timeSpent: 40)
+
 //                if let a = appData.shared.subjects["English"]{
 //                    a.homework.append(temp)
 //                    a.homework.append(temp1)
@@ -289,35 +262,35 @@ struct uploadHomeworkView: View {
 //                    a.homework.append(temp4)
 //
 //                }
-//                for subject in appData.shared.subjects {
-//                    print("run")
-//                    if subject.subject == "English"{
-//                        print("through")
-//                        subject.homework.append(temp)
-//                        subject.homework.append(temp1)
-//                        subject.homework.append(temp2)
-//                        subject.homework.append(temp3)
-//                        subject.homework.append(temp4)
-//                        print("success")
-//                    }
-//                }
-//                print(appData.shared.subjects[0].homework[0].homeworkRating)
-//                print(appData.shared.subjects[0].homework[1].homeworkRating)
-//                print(appData.shared.subjects[0].homework[2].homeworkRating)
-//                print(appData.shared.subjects[0].homework[3].homeworkRating)
-//                print(appData.shared.subjects[0].homework[4].homeworkRating)
-//            }
-        }
-        .padding()
-        .alert("Please enter a number for time spent", isPresented: $intPlsAlert) {
-            
-        }
-        .alert("Please fill out every field", isPresented: $plsEnterAllFields){
-            
-        }
-    }
+                for subject in appData.shared.subjects {
+                    print("run")
+                    if subject.subject == "English"{
+                        print("through")
+                        subject.homework.append(temp)
+                        subject.homework.append(temp1)
+                        subject.homework.append(temp2)
+                        subject.homework.append(temp3)
+                        subject.homework.append(temp4)
+                        print("success")
+                    }
+}
+                print(appData.shared.subjects[0].homework[0].homeworkRating)
+                print(appData.shared.subjects[0].homework[1].homeworkRating)
+                print(appData.shared.subjects[0].homework[2].homeworkRating)
+                print(appData.shared.subjects[0].homework[3].homeworkRating)
+                print(appData.shared.subjects[0].homework[4].homeworkRating)
+}
+}
+.padding()
+.alert("Please enter a number for time spent", isPresented: $intPlsAlert) {
+
+}
+.alert("Please fill out every field", isPresented: $plsEnterAllFields){
+
+}
+}
 }
 
 #Preview {
-    uploadHomeworkView(subjectsPersistance: .constant([Subject(subject: "N/A")]), homeworksPersistance: .constant([Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 0, homeworkDifficulty: 0, subject: "N/A", dueDate: Date.now, timeSpent: 0, finished: false)]))
+uploadHomeworkView()
 }
