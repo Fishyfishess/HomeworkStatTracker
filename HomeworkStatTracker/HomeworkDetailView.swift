@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Foundation
+import SwiftData
 
 struct HomeworkDetailView: View {
 @Environment(\.dismiss) private var dismiss
@@ -135,6 +136,9 @@ homework.timeSpent = z
                                     for subject in appData.shared.subjects {
                                         if subject.subject == homework.subject{
                                             subject.homework.append(homework)
+                                            try? context.save()
+                                            print("this is the homework count in english")
+                                            print(subject.homework.count)
                                         }
 }
 for i in 0..<appData.shared.toDoList.count{
@@ -194,7 +198,7 @@ HStack{
 
 }
             .onAppear {
-                for subject in appData.shared.subjects {
+                for subject in subjectsPersistance {
                     if subject.subject == homework.subject{
                         rating = subject.analyzeRating(homeworkType: homework.homeworkType)
                         difficulty = subject.analyzeDifficulty(homeworkType: homework.homeworkType)

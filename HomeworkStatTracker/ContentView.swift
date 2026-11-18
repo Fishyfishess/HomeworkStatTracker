@@ -20,7 +20,7 @@ var toDoList: [Homework] = []
 struct ContentView: View {
     @Environment(\.modelContext) var context
     @Query var subjects: [Subject]
-    @Query var Homework: [Homework]
+    @Query var Homeworks: [Homework]
     
 @State var dailyQuotes: [String] = ["hey"]
 var body: some View {

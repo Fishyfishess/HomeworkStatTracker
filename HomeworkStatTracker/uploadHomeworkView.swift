@@ -11,7 +11,10 @@ import SwiftData
 struct uploadHomeworkView: View {
     
     @Environment(\.modelContext) var context
-    @Query var subjects: [Subject]
+    //@Query var subjects: [Subject]
+    
+    @Binding var subjectsPersistance: [Subject]
+    @Binding var homeworksPersistance : [Homework]
     
 @State var selectedSubject = "--"
 @State var selectedHomeworkType = "--"
@@ -220,8 +223,25 @@ print(selectedSubject)
                             for subject in appData.shared.subjects {
                                 print("prog")
                                 if subject.subject == selectedSubject{
+                                    //let j = subject
                                     subject.homework.append(temp)
-                                    //print(appData.shared.subjects[0].homework[0].homeworkRating)
+                                    //context.insert(j)
+                                    print(subject.subject)
+                                    print("homework before delete")
+                                    print(subject.homework.count)
+                                    //context.delete(temp)
+                                    try? context.save()
+                                    print("homework after delete")
+                                    print(subject.homework.count)
+                                    for i in 0..<homeworksPersistance.count{
+                                        print(homeworksPersistance[i].uid)
+                                        if homeworksPersistance[i].uid == temp.uid {
+                                            //homeworksPersistance.remove(at: i)
+                                            context.delete(homeworksPersistance[i])
+                                            print("removed upload from homework")
+                                        }
+                                    }
+                                    try? context.save()
                                 }
 }
 //                            if let a = appData.shared.subjects[selectedSubject]{
