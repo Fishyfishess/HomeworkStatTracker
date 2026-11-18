@@ -217,7 +217,7 @@ struct uploadHomeworkView: View {
                         let tempRating = Int(selectedhomeworkRating) ?? -1
                         let tempDifficulty = Int(selectedPersonalDifficulty) ?? -1
                         if tempRating != -1 && tempDifficulty != -1 {
-                            let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: tempRating, homeworkDifficulty: tempDifficulty, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: x)
+                            let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: tempRating, homeworkDifficulty: tempDifficulty, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: x, finished: true)
                             print(selectedSubject)
                             print(temp.uid)
                             for subject in subjectsPersistance {
@@ -231,17 +231,19 @@ struct uploadHomeworkView: View {
                                     print(subject.homework.count)
                                     //context.delete(temp)
                                     try? context.save()
+                                    print(homeworkName)
+                                    print(subject.homework.last?.homeworkName ?? "failed")
                                     print("homework after delete")
                                     print(subject.homework.count)
-                                    for i in 0..<homeworksPersistance.count{
-                                        print(homeworksPersistance[i].uid)
-                                        if homeworksPersistance[i].uid == temp.uid {
-                                            //homeworksPersistance.remove(at: i)
-                                            context.delete(homeworksPersistance[i])
-                                            print("removed upload from homework")
-                                        }
-                                    }
-                                    try? context.save()
+//                                    for i in 0..<homeworksPersistance.count{
+//                                        print(homeworksPersistance[i].uid)
+//                                        if homeworksPersistance[i].uid == temp.uid {
+//                                            //homeworksPersistance.remove(at: i)
+//                                            context.delete(homeworksPersistance[i])
+//                                            print("removed upload from homework")
+//                                        }
+//                                    }
+//                                    try? context.save()
                                 }
                             }
                             
@@ -317,5 +319,5 @@ struct uploadHomeworkView: View {
 }
 
 #Preview {
-    uploadHomeworkView(subjectsPersistance: .constant([Subject(subject: "N/A")]), homeworksPersistance: .constant([Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 0, homeworkDifficulty: 0, subject: "N/A", dueDate: Date.now, timeSpent: 0)]))
+    uploadHomeworkView(subjectsPersistance: .constant([Subject(subject: "N/A")]), homeworksPersistance: .constant([Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 0, homeworkDifficulty: 0, subject: "N/A", dueDate: Date.now, timeSpent: 0, finished: false)]))
 }

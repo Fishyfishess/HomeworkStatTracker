@@ -68,6 +68,16 @@ struct ContentView: View {
 //                                try? context.save()
 //                                print(Homeworks)
 //                            }
+                            
+                            for i in 0..<Homeworks.count{
+                                print(Homeworks[i].finished)
+                                if Homeworks[i].finished{
+                                    context.delete(Homeworks[i])
+                                    print("removed upload from homework")
+                                }
+                            }
+                            try? context.save()
+                            
                             if subjects.count == 0{
                                 context.insert(Subject(subject: "English"))
                                 context.insert(Subject(subject: "Math"))
@@ -86,14 +96,14 @@ struct ContentView: View {
                             }
                             
                         }
-                        Button("delete pers"){
-                            do {
-                                try context.delete(model: Subject.self)
-                                try context.delete(model: Homework.self)
-                            } catch {
-
-                            }
-                        }
+//                        Button("delete pers"){
+//                            do {
+//                                try context.delete(model: Subject.self)
+//                                try context.delete(model: Homework.self)
+//                            } catch {
+//
+//                            }
+//                        }
                     }
                     Tab("Add", systemImage: "plus") {
                         addHomeworkView()

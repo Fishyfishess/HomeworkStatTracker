@@ -122,6 +122,7 @@ struct HomeworkDetailView: View {
                     }
                     .padding()
                     HStack{
+                        Text(String(homework.finished))
                         Button("Finish"){
                             if thisRating != "--" && thisDifficulty != "--" && thisTimeSpent != ""{
                                 if let z = Int(thisTimeSpent){
@@ -132,6 +133,7 @@ struct HomeworkDetailView: View {
                                         homework.homeworkDifficulty = y
                                     }
                                     homework.timeSpent = z
+                                    homework.finished = true
                                     for subject in subjectsPersistance {
                                         if subject.subject == homework.subject{
                                             subject.homework.append(homework)
@@ -211,5 +213,5 @@ struct HomeworkDetailView: View {
 }
 
 #Preview {
-    HomeworkDetailView(subjectsPersistance: .constant([Subject(subject: "N/A")]) ,homeworksPersistance: .constant([Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 0, homeworkDifficulty: 0, subject: "N/A", dueDate: Date.now, timeSpent: 0)]), homework: Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 2, homeworkDifficulty: 3, subject: "N/A", dueDate: Date.distantPast, timeSpent: 0))
+    HomeworkDetailView(subjectsPersistance: .constant([Subject(subject: "N/A")]) ,homeworksPersistance: .constant([Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 0, homeworkDifficulty: 0, subject: "N/A", dueDate: Date.now, timeSpent: 0, finished: false)]), homework: Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 2, homeworkDifficulty: 3, subject: "N/A", dueDate: Date.distantPast, timeSpent: 0, finished: false))
 }
