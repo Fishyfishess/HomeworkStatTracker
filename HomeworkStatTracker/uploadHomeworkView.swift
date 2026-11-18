@@ -14,6 +14,8 @@ struct uploadHomeworkView: View {
     //@Query var subjects: [Subject]
     
     @Binding var subjectsPersistance: [Subject]
+    @Binding var homeworksPersistance : [Homework]
+    
     @State var selectedSubject = "--"
     @State var selectedHomeworkType = "--"
     @State var selectedDueDate = Date.now
@@ -217,7 +219,7 @@ struct uploadHomeworkView: View {
                         if tempRating != -1 && tempDifficulty != -1 {
                             let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: tempRating, homeworkDifficulty: tempDifficulty, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: x)
                             print(selectedSubject)
-                            
+                            print(temp.uid)
                             for subject in subjectsPersistance {
                                 print("prog")
                                 if subject.subject == selectedSubject{
@@ -225,7 +227,20 @@ struct uploadHomeworkView: View {
                                     subject.homework.append(temp)
                                     //context.insert(j)
                                     print(subject.subject)
+                                    print("homework before delete")
                                     print(subject.homework.count)
+                                    //context.delete(temp)
+                                    try? context.save()
+                                    print("homework after delete")
+                                    print(subject.homework.count)
+                                    for i in 0..<homeworksPersistance.count{
+                                        print(homeworksPersistance[i].uid)
+                                        if homeworksPersistance[i].uid == temp.uid {
+                                            //homeworksPersistance.remove(at: i)
+                                            context.delete(homeworksPersistance[i])
+                                            print("removed upload from homework")
+                                        }
+                                    }
                                     try? context.save()
                                 }
                             }
@@ -239,6 +254,14 @@ struct uploadHomeworkView: View {
                             selectedPersonalDifficulty = "--"
                             selectedhomeworkRating = "--"
                             selectedTimeSpent = ""
+                            for i in 0..<homeworksPersistance.count{
+                                print(homeworksPersistance[i].uid)
+                                if homeworksPersistance[i].uid == temp.uid {
+                                    //homeworksPersistance.remove(at: i)
+                                    context.delete(homeworksPersistance[i])
+                                    print("removed upload from homework")
+                                }
+                            }
                         }
                     } else {
                         intPlsAlert.toggle()
@@ -249,13 +272,13 @@ struct uploadHomeworkView: View {
             }
             .buttonStyle(.glassProminent)
             
-            Button("testing"){
-                print("zamn")
-                let temp = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 5, homeworkDifficulty: 5, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-                let temp1 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 4, homeworkDifficulty: 4, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-                let temp2 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 3, homeworkDifficulty: 3, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-                let temp3 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 2, homeworkDifficulty: 2, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-                let temp4 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 1, homeworkDifficulty: 1, subject: "English", dueDate: selectedDueDate, timeSpent: 40)
+//            Button("testing"){
+//                print("zamn")
+//                let temp = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 5, homeworkDifficulty: 5, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+//                let temp1 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 4, homeworkDifficulty: 4, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+//                let temp2 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 3, homeworkDifficulty: 3, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+//                let temp3 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 2, homeworkDifficulty: 2, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+//                let temp4 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 1, homeworkDifficulty: 1, subject: "English", dueDate: selectedDueDate, timeSpent: 40)
 //                if let a = appData.shared.subjects["English"]{
 //                    a.homework.append(temp)
 //                    a.homework.append(temp1)
@@ -281,7 +304,7 @@ struct uploadHomeworkView: View {
 //                print(appData.shared.subjects[0].homework[2].homeworkRating)
 //                print(appData.shared.subjects[0].homework[3].homeworkRating)
 //                print(appData.shared.subjects[0].homework[4].homeworkRating)
-            }
+//            }
         }
         .padding()
         .alert("Please enter a number for time spent", isPresented: $intPlsAlert) {
@@ -294,5 +317,5 @@ struct uploadHomeworkView: View {
 }
 
 #Preview {
-    uploadHomeworkView(subjectsPersistance: .constant([Subject(subject: "N/A")]))
+    uploadHomeworkView(subjectsPersistance: .constant([Subject(subject: "N/A")]), homeworksPersistance: .constant([Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 0, homeworkDifficulty: 0, subject: "N/A", dueDate: Date.now, timeSpent: 0)]))
 }

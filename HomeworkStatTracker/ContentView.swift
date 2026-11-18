@@ -81,6 +81,9 @@ struct ContentView: View {
                             print(Homeworks.count)
                             //print(appData.shared.subjects.count)
                             print(subjects.count)
+                            for i in 0..<Homeworks.count{
+                                print(Homeworks[i].uid)
+                            }
                             
                         }
                         Button("delete pers"){
@@ -96,7 +99,7 @@ struct ContentView: View {
                         addHomeworkView()
                     }
                     Tab("Upload", systemImage: "square.and.arrow.up") {
-                        uploadHomeworkView(subjectsPersistance: .constant(subjects))
+                        uploadHomeworkView(subjectsPersistance: .constant(subjects), homeworksPersistance: .constant(Homeworks))
                     }
                     Tab("Settings", systemImage: "gearshape.fill"){
                         settingsView()

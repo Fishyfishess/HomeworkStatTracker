@@ -135,11 +135,15 @@ struct HomeworkDetailView: View {
                                     for subject in subjectsPersistance {
                                         if subject.subject == homework.subject{
                                             subject.homework.append(homework)
+                                            try? context.save()
+                                            print("this is the homework count in english")
+                                            print(subject.homework.count)
                                         }
                                     }
                                     for i in 0..<homeworksPersistance.count{
                                         if homeworksPersistance[i].uid == homework.uid {
-                                            homeworksPersistance.remove(at: i)
+                                            //homeworksPersistance.remove(at: i)
+                                            context.delete(homeworksPersistance[i])
                                         }
                                     }
                                     dismiss()
