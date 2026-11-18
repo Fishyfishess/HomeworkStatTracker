@@ -7,9 +7,13 @@
 
 import SwiftUI
 import Foundation
+import SwiftData
 
 struct HomeworkDetailView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) var context
+    @Binding var subjectsPersistance : [Subject]
+    @Binding var homeworksPersistance : [Homework]
     @State var homework : Homework
     @State var thisRating = "--"
     @State var thisDifficulty = "--"
@@ -118,6 +122,7 @@ struct HomeworkDetailView: View {
                     }
                     .padding()
                     HStack{
+                        Text(String(homework.finished))
                         Button("Finish"){
                             if thisRating != "--" && thisDifficulty != "--" && thisTimeSpent != ""{
                                 if let z = Int(thisTimeSpent){
@@ -128,18 +133,19 @@ struct HomeworkDetailView: View {
                                         homework.homeworkDifficulty = y
                                     }
                                     homework.timeSpent = z
-//                                    if let a = appData.shared.subjects[homework.subject]{
-//                                        a.homework.append(homework)
-//                                        print("success?")
-//                                    }
-                                    for subject in appData.shared.subjects {
+                                    homework.finished = true
+                                    for subject in subjectsPersistance {
                                         if subject.subject == homework.subject{
                                             subject.homework.append(homework)
+                                            try? context.save()
+                                            print("this is the homework count in english")
+                                            print(subject.homework.count)
                                         }
                                     }
-                                    for i in 0..<appData.shared.toDoList.count{
-                                        if appData.shared.toDoList[i].uid == homework.uid {
-                                            appData.shared.toDoList.remove(at: i)
+                                    for i in 0..<homeworksPersistance.count{
+                                        if homeworksPersistance[i].uid == homework.uid {
+                                            //homeworksPersistance.remove(at: i)
+                                            context.delete(homeworksPersistance[i])
                                         }
                                     }
                                     dismiss()
@@ -194,23 +200,11 @@ struct HomeworkDetailView: View {
                 
             }
             .onAppear {
-                for subject in appData.shared.subjects {
+                for subject in subjectsPersistance {
                     if subject.subject == homework.subject{
                         rating = subject.analyzeRating(homeworkType: homework.homeworkType)
                         difficulty = subject.analyzeDifficulty(homeworkType: homework.homeworkType)
                         timeSpent = subject.analyzeTimeSpent(homeworkType: homework.homeworkType)
-                        
-//                        print(subject.homework[0].homeworkRating)
-//                        print(subject.homework[1].homeworkRating)
-//                        print(subject.homework[2].homeworkRating)
-//                        print(subject.homework[3].homeworkRating)
-//                        print(subject.homework[4].homeworkRating)
-//                        
-//                        print("done")
-//                        print(rating)
-//                        print(difficulty)
-//                        print(timeSpent)
-//                        print(subject.subject)
                     }
                 }
             }
@@ -219,5 +213,5 @@ struct HomeworkDetailView: View {
 }
 
 #Preview {
-    HomeworkDetailView(homework: Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 2, homeworkDifficulty: 3, subject: "N/A", dueDate: Date.distantPast, timeSpent: 0))
+    HomeworkDetailView(subjectsPersistance: .constant([Subject(subject: "N/A")]) ,homeworksPersistance: .constant([Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 0, homeworkDifficulty: 0, subject: "N/A", dueDate: Date.now, timeSpent: 0, finished: false)]), homework: Homework(homeworkType: "N/A", homeworkName: "N/A", homeworkRating: 2, homeworkDifficulty: 3, subject: "N/A", dueDate: Date.distantPast, timeSpent: 0, finished: false))
 }
