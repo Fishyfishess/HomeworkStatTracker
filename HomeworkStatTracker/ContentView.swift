@@ -7,8 +7,8 @@
 
 import SwiftUI
 import SwiftData
-@Observable
-//@Model
+//@Observable
+@Model
 class appData{
     static var shared = appData()
     private init(){
@@ -20,8 +20,8 @@ class appData{
 
 struct ContentView: View {
     @State var dailyQuotes: [String] = ["hey"]
-    //@Environment(\.modelContext) var context
-    //@Query var Data: [appData]
+    @Environment(\.modelContext) var context
+    @Query var Data: [appData]
     var body: some View {
         NavigationStack{
                 TabView {
@@ -46,13 +46,13 @@ struct ContentView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                         }
                         .padding()
-//                        .onAppear{
-//                            if !appData.shared.saved {
-//                                context.insert(appData.shared)
-//                                appData.shared.saved = true
-//                            }
-//                            appData.shared = Data[0]
-//                        }
+                        .onAppear{
+                            if !appData.shared.saved {
+                                context.insert(appData.shared)
+                                appData.shared.saved = true
+                            }
+                            appData.shared = Data[0]
+                        }
                     }
                     Tab("Add", systemImage: "plus") {
                         addHomeworkView()

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-//@Model
+@Model
 class Homework{
     
     //each one can store one homework
@@ -20,7 +20,6 @@ class Homework{
     var subject: String
     var dueDate: Date
     var timeSpent: Int
-    var finished: Bool
     var uid = UUID()
     init(homeworkType: String, homeworkName: String, homeworkRating: Int, homeworkDifficulty: Int, subject: String, dueDate: Date, timeSpent: Int, uid: UUID = UUID()) {
         self.homeworkType = homeworkType
@@ -30,7 +29,6 @@ class Homework{
         self.subject = subject
         self.dueDate = dueDate
         self.timeSpent = timeSpent
-        self.finished = finished
         self.uid = uid
     }
 }

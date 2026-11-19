@@ -13,7 +13,7 @@ struct HomeworkStatTrackerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                //.modelContainer(for: appData.self)
+                .modelContainer(for: appData.self)
         }
     }
 }
