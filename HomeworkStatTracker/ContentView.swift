@@ -7,22 +7,21 @@
 
 import SwiftUI
 import SwiftData
-//@Observable
+@Observable
 //@Model
-//class appData{
-//    static var shared = appData()
-//    private init(){
-//    }
-//    //var toDoList: [Homework] = []
-//    //var subjects : [Subject] = [Subject(subject: "English"), Subject(subject: "Math"), Subject(subject: "Computer science"), Subject(subject: "Science"), Subject(subject: "Social science")]
-//}
+class appData{
+    static var shared = appData()
+    private init(){
+    }
+    var toDoList: [Homework] = []
+    var subjects : [Subject] = [Subject(subject: "English"), Subject(subject: "Math"), Subject(subject: "Computer science"), Subject(subject: "Science"), Subject(subject: "Social science")]
+    var saved = false
+}
 
 struct ContentView: View {
-    @Environment(\.modelContext) var context
-    @Query var subjects: [Subject]
-    @Query var Homeworks: [Homework]
-    
     @State var dailyQuotes: [String] = ["hey"]
+    //@Environment(\.modelContext) var context
+    //@Query var Data: [appData]
     var body: some View {
         NavigationStack{
                 TabView {
@@ -33,13 +32,13 @@ struct ContentView: View {
                             Text("\(Date.now.formatted(date: .abbreviated, time: .omitted)) | \"\(dailyQuotes[0])\"")
                                 .font(.custom("Georgia", size: 20, relativeTo: .headline))
                             List {
-                                if Homeworks.isEmpty{
+                                if appData.shared.toDoList.isEmpty{
                                     Spacer()
                                         .listRowBackground(Color.clear)
                                 } else {
-                                    ForEach(Homeworks, id:\.dueDate){ homework in
+                                    ForEach(appData.shared.toDoList, id:\.dueDate){ homework in
                                         NavigationLink("\(homework.homeworkName) | Due:  \(homework.dueDate.formatted(date: .abbreviated, time: .omitted))") {
-                                            HomeworkDetailView(subjectsPersistance: .constant(subjects), homeworksPersistance: .constant(Homeworks), homework: homework)
+                                            HomeworkDetailView(homework: homework)
                                         }
                                     }
                                 }
@@ -47,100 +46,24 @@ struct ContentView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                         }
                         .padding()
-                        .onAppear {
-//                            do {
-//                                try context.delete(model: Subject.self)
-//                                try context.delete(model: Homework.self)
-//                            } catch {
-//                                
+//                        .onAppear{
+//                            if !appData.shared.saved {
+//                                context.insert(appData.shared)
+//                                appData.shared.saved = true
 //                            }
-//                            print(appData.shared.subjects.count)
-//                            print(subjects.count)
-//                            for subject in appData.shared.subjects {
-//                                context.insert(subject)
-//                                print(subject.subject)
-//                                try? context.save()
-//                                print(subjects)
-//                            }
-//                            for homework in appData.shared.toDoList {
-//                                context.insert(homework)
-//                                print(homework.homeworkName)
-//                                try? context.save()
-//                                print(Homeworks)
-//                            }
-                            
-                            for i in 0..<Homeworks.count{
-                                print(Homeworks[i].finished)
-                                if Homeworks[i].finished{
-                                    context.delete(Homeworks[i])
-                                    print("removed upload from homework")
-                                }
-                            }
-                            try? context.save()
-                            
-                            if subjects.count == 0{
-                                context.insert(Subject(subject: "English"))
-                                context.insert(Subject(subject: "Math"))
-                                context.insert(Subject(subject: "Computer science"))
-                                context.insert(Subject(subject: "Science"))
-                                context.insert(Subject(subject: "Social science"))
-                                try? context.save()
-                            }
-//                            appData.shared.toDoList = Homeworks
-//                            appData.shared.subjects = subjects
-                            print(Homeworks.count)
-                            //print(appData.shared.subjects.count)
-                            print(subjects.count)
-                            for i in 0..<Homeworks.count{
-                                print(Homeworks[i].uid)
-                            }
-                            
-                        }
-//                        Button("delete pers"){
-//                            do {
-//                                try context.delete(model: Subject.self)
-//                                try context.delete(model: Homework.self)
-//                            } catch {
-//
-//                            }
+//                            appData.shared = Data[0]
 //                        }
                     }
                     Tab("Add", systemImage: "plus") {
                         addHomeworkView()
                     }
                     Tab("Upload", systemImage: "square.and.arrow.up") {
-                        uploadHomeworkView(subjectsPersistance: .constant(subjects), homeworksPersistance: .constant(Homeworks))
+                        uploadHomeworkView()
                     }
                     Tab("Settings", systemImage: "gearshape.fill"){
                         settingsView()
                     }
                 }
-//                .onAppear {
-//                    do {
-//                        try context.delete(model: Subject.self)
-//                        try context.delete(model: Homework.self)
-//                    } catch {
-//                        
-//                    }
-//                    for subject in appData.shared.subjects {
-//                        context.insert(subject)
-//                        print(subject.subject)
-//                        try? context.save()
-//                        print(subjects)
-//                    }
-//                    for homework in appData.shared.toDoList {
-//                        context.insert(homework)
-//                        print(homework.homeworkName)
-//                        try? context.save()
-//                        print(Homeworks)
-//                    }
-//                    appData.shared.toDoList = Homeworks
-//                    appData.shared.subjects = subjects
-//                    //print(Homework.count)
-//                    print(appData.shared.subjects.count)
-//                    print(subjects.count)
-//                    
-//                }
         }
     }
 }

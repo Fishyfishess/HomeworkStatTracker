@@ -7,12 +7,8 @@
 
 import SwiftUI
 import SwiftData
-
 struct addHomeworkView: View {
-    
-    @Environment(\.modelContext) var context
-    //@Query var Homeworks: [Homework]
-    
+    //@Environment(\.modelContext) var context
     @State var selectedSubject = "--"
     @State var selectedHomeworkType = "--"
     @State var selectedDueDate = Date.now
@@ -130,12 +126,9 @@ struct addHomeworkView: View {
             Spacer()
             Button("Add Homework"){
                 if homeworkName != "" && selectedSubject != "--" && selectedHomeworkType != "--"{
-                    let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: 0, finished: false)
-                    //appData.shared.toDoList.append(temp)
-                    context.insert(temp)
-                    print("added")
-                    try? context.save()
-                    //print(Homeworks.count)
+                    let temp = Homework(homeworkType: selectedHomeworkType, homeworkName: homeworkName, homeworkRating: -1, homeworkDifficulty: -1, subject: selectedSubject, dueDate: selectedDueDate, timeSpent: 0)
+                    appData.shared.toDoList.append(temp)
+                    //try? context.save()
                     selectedSubject = "--"
                     selectedHomeworkType = "--"
                     selectedDueDate = Date.now
