@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 import SwiftData
+
 struct HomeworkDetailView: View {
     @Environment(\.dismiss) private var dismiss
     //@Environment(\.modelContext) var context
