@@ -215,6 +215,7 @@ struct uploadHomeworkView: View {
                             for i in 0..<appData.shared.subjects.count {
                                 if appData.shared.subjects[i].subject == temp.subject{
                                     appData.shared.subjects[i].homework.append(temp)
+                                    print("done yo")
                                 }
                             }
                             
@@ -237,23 +238,23 @@ struct uploadHomeworkView: View {
             }
             .buttonStyle(.glassProminent)
             
-            Button("testing"){
-                let temp = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 5, homeworkDifficulty: 5, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-                let temp1 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 4, homeworkDifficulty: 4, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-                let temp2 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 3, homeworkDifficulty: 3, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-                let temp3 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 2, homeworkDifficulty: 2, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
-                let temp4 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 1, homeworkDifficulty: 1, subject: "English", dueDate: selectedDueDate, timeSpent: 40)
-                
-                for i in 0..<appData.shared.subjects.count {
-                    if appData.shared.subjects[i].subject == "English"{
-                        appData.shared.subjects[i].homework.append(temp)
-                        appData.shared.subjects[i].homework.append(temp1)
-                        appData.shared.subjects[i].homework.append(temp2)
-                        appData.shared.subjects[i].homework.append(temp3)
-                        appData.shared.subjects[i].homework.append(temp4)
-                    }
-                }
-            }
+//            Button("testing"){
+//                let temp = Homework(homeworkType: "Essay", homeworkName: "essay ehh", homeworkRating: 5, homeworkDifficulty: 5, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+//                let temp1 = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 4, homeworkDifficulty: 4, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+//                let temp2 = Homework(homeworkType: "Essay", homeworkName: "essay hah", homeworkRating: 3, homeworkDifficulty: 3, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+//                let temp3 = Homework(homeworkType: "Essay", homeworkName: "essay aha", homeworkRating: 2, homeworkDifficulty: 2, subject: "English", dueDate: selectedDueDate, timeSpent: 50)
+//                let temp4 = Homework(homeworkType: "Essay", homeworkName: "essay hoho", homeworkRating: 1, homeworkDifficulty: 1, subject: "English", dueDate: selectedDueDate, timeSpent: 40)
+//                
+//                for i in 0..<appData.shared.subjects.count {
+//                    if appData.shared.subjects[i].subject == "English"{
+//                        appData.shared.subjects[i].homework.append(temp1)
+//                        appData.shared.subjects[i].homework.append(temp1)
+//                        appData.shared.subjects[i].homework.append(temp2)
+//                        appData.shared.subjects[i].homework.append(temp3)
+//                        appData.shared.subjects[i].homework.append(temp4)
+//                    }
+//                }
+//            }
         }
         .padding()
         .alert("Please enter a number for time spent", isPresented: $intPlsAlert) {
