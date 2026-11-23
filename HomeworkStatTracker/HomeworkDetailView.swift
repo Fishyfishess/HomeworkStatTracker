@@ -151,22 +151,22 @@ struct HomeworkDetailView: View {
                                 plsEnterAllFields.toggle()
                             }
                         }
-                        .buttonStyle(.glassProminent)
+                        .buttonStyle(.borderedProminent)
                         Button("return"){
                             dismiss()
                         }
-                        .buttonStyle(.glassProminent)
+                        .buttonStyle(.borderedProminent)
                     }
                 } else {
                     HStack{
                         Button("submit"){
                             submit.toggle()
                         }
-                        .buttonStyle(.glassProminent)
+                        .buttonStyle(.borderedProminent)
                         Button("return"){
                             dismiss()
                         }
-                        .buttonStyle(.glassProminent)
+                        .buttonStyle(.borderedProminent)
                     }
                 }
                 HStack{

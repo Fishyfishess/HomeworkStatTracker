@@ -137,7 +137,7 @@ struct addHomeworkView: View {
                     plsFillOutAllFields.toggle()
                 }
             }
-            .buttonStyle(.glassProminent)
+            .buttonStyle(.borderedProminent)
         }
         .padding()
         .alert("Please fill out every field", isPresented: $plsFillOutAllFields) {

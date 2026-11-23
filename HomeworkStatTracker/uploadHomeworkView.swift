@@ -235,7 +235,7 @@ struct uploadHomeworkView: View {
                     plsEnterAllFields.toggle()
                 }
             }
-            .buttonStyle(.glassProminent)
+            .buttonStyle(.borderedProminent)
             
             Button("testing"){
                 let temp = Homework(homeworkType: "Essay", homeworkName: "essay ahh", homeworkRating: 5, homeworkDifficulty: 5, subject: "English", dueDate: selectedDueDate, timeSpent: 50)

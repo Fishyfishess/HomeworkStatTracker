@@ -42,7 +42,7 @@ struct settingsView: View {
                     }
                 }
             }
-            .buttonStyle(.glassProminent)
+            .buttonStyle(.borderedProminent)
             Spacer()
         }
     }
