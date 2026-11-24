@@ -197,9 +197,9 @@ struct HomeworkDetailView: View {
             .onAppear {
                 for i in 0..<appData.shared.subjects.count{
                     if appData.shared.subjects[i].subject == homework.subject{
-                        //rating = appData.shared.subjects[i].analyzeRating(homeworkType: homework.homeworkType)
-                        //difficulty = appData.shared.subjects[i].analyzeDifficulty(homeworkType: homework.homeworkType)
-                        //timeSpent = appData.shared.subjects[i].analyzeTimeSpent(homeworkType: homework.homeworkType)
+                        rating = appData.shared.subjects[i].analyzeRating(homeworkType: homework.homeworkType)
+                        difficulty = appData.shared.subjects[i].analyzeDifficulty(homeworkType: homework.homeworkType)
+                        timeSpent = appData.shared.subjects[i].analyzeTimeSpent(homeworkType: homework.homeworkType)
                     }
                 }
             }
